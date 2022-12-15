@@ -23,7 +23,7 @@ $ go run hello.go
 Hello, world!
 ```
 
-或者在 [Go repl](https://repl.it/languages/go) 中尝试一下
+或者在 [Go repl](https://repl.it/languages/go) 中尝试一，`go` 命令[参考](#go-命令)
 
 ### 变量
 
@@ -89,7 +89,7 @@ Golang 基本类型
 s1 := "Hello" + "World"
 s2 := `A "raw" string literal
 can include line breaks.`
-// 输出：11
+// 输出：10
 fmt.Println(len(s1))
 // 输出：Hello
 fmt.Println(string(s1[0:5]))
@@ -126,7 +126,7 @@ isTrue   := true
 isFalse  := false
 ```
 
-#### 操作符 
+#### 操作符
 
 ```go
 fmt.Println(true && true)   // true 
@@ -247,7 +247,6 @@ s := strconv.Itoa(i)
 fmt.Println(s) // Outputs: 90
 ```
 
-
 Golang 字符串
 --------
 
@@ -256,18 +255,18 @@ Golang 字符串
 ```go
 package main
 import (
-	"fmt"
-	s "strings"
+        "fmt"
+        s "strings"
 )
 func main() {
     /* 需要将字符串导入为 s */
-	fmt.Println(s.Contains("test", "e"))
+        fmt.Println(s.Contains("test", "e"))
     /* 内置 */
     fmt.Println(len("hello"))  // => 5
     // 输出: 101
-	fmt.Println("hello"[1])
+        fmt.Println("hello"[1])
     // 输出: e
-	fmt.Println(string("hello"[1]))
+        fmt.Println(string("hello"[1]))
 }
 ```
 
@@ -277,38 +276,38 @@ func main() {
 ```go
 package main
 import (
-	"fmt"
-	"os"
+        "fmt"
+        "os"
 )
 type point struct {
-	x, y int
+        x, y int
 }
 func main() {
-	p := point{1, 2}
-	fmt.Printf("%v\n", p)                        // => {1 2}
-	fmt.Printf("%+v\n", p)                       // => {x:1 y:2}
-	fmt.Printf("%#v\n", p)                       // => main.point{x:1, y:2}
-	fmt.Printf("%T\n", p)                        // => main.point
-	fmt.Printf("%t\n", true)                     // => TRUE
-	fmt.Printf("%d\n", 123)                      // => 123
-	fmt.Printf("%b\n", 14)                       // => 1110
-	fmt.Printf("%c\n", 33)                       // => !
-	fmt.Printf("%x\n", 456)                      // => 1c8
-	fmt.Printf("%f\n", 78.9)                     // => 78.9
-	fmt.Printf("%e\n", 123400000.0)              // => 1.23E+08
-	fmt.Printf("%E\n", 123400000.0)              // => 1.23E+08
-	fmt.Printf("%s\n", "\"string\"")             // => "string"
-	fmt.Printf("%q\n", "\"string\"")             // => "\"string\""
-	fmt.Printf("%x\n", "hex this")               // => 6.86578E+15
-	fmt.Printf("%p\n", &p)                       // => 0xc00002c040
-	fmt.Printf("|%6d|%6d|\n", 12, 345)           // => |    12|   345|
-	fmt.Printf("|%6.2f|%6.2f|\n", 1.2, 3.45)     // => |  1.20|  3.45|
-	fmt.Printf("|%-6.2f|%-6.2f|\n", 1.2, 3.45)   // => |1.20  |3.45  |
-	fmt.Printf("|%6s|%6s|\n", "foo", "b")        // => |   foo|     b|
-	fmt.Printf("|%-6s|%-6s|\n", "foo", "b")      // => |foo   |b     |
-	s := fmt.Sprintf("a %s", "string")
-	fmt.Println(s)
-	fmt.Fprintf(os.Stderr, "an %s\n", "error")
+        p := point{1, 2}
+        fmt.Printf("%v\n", p)                        // => {1 2}
+        fmt.Printf("%+v\n", p)                       // => {x:1 y:2}
+        fmt.Printf("%#v\n", p)                       // => main.point{x:1, y:2}
+        fmt.Printf("%T\n", p)                        // => main.point
+        fmt.Printf("%t\n", true)                     // => TRUE
+        fmt.Printf("%d\n", 123)                      // => 123
+        fmt.Printf("%b\n", 14)                       // => 1110
+        fmt.Printf("%c\n", 33)                       // => !
+        fmt.Printf("%x\n", 456)                      // => 1c8
+        fmt.Printf("%f\n", 78.9)                     // => 78.9
+        fmt.Printf("%e\n", 123400000.0)              // => 1.23E+08
+        fmt.Printf("%E\n", 123400000.0)              // => 1.23E+08
+        fmt.Printf("%s\n", "\"string\"")             // => "string"
+        fmt.Printf("%q\n", "\"string\"")             // => "\"string\""
+        fmt.Printf("%x\n", "hex this")               // => 6.86578E+15
+        fmt.Printf("%p\n", &p)                       // => 0xc00002c040
+        fmt.Printf("|%6d|%6d|\n", 12, 345)           // => |    12|   345|
+        fmt.Printf("|%6.2f|%6.2f|\n", 1.2, 3.45)     // => |  1.20|  3.45|
+        fmt.Printf("|%-6.2f|%-6.2f|\n", 1.2, 3.45)   // => |1.20  |3.45  |
+        fmt.Printf("|%6s|%6s|\n", "foo", "b")        // => |   foo|     b|
+        fmt.Printf("|%-6s|%-6s|\n", "foo", "b")      // => |foo   |b     |
+        s := fmt.Sprintf("a %s", "string")
+        fmt.Println(s)
+        fmt.Fprintf(os.Stderr, "an %s\n", "error")
 }
 ```
 
@@ -316,8 +315,8 @@ func main() {
 
 ### 函数实例
 
-| 实例                           | Result      |
-|-------------------------------|-------------|
+| 实例                          | Result      |
+| ----------------------------- | ----------- |
 | Contains("test", "es")        | true        |
 | Count("test", "t")            | 2           |
 | HasPrefix("test", "te")       | true        |
@@ -402,7 +401,7 @@ for _, num := range nums {
 fmt.Println("sum:", sum)
 ```
 
-### While 循环
+### For 循环
 
 ```go
 i := 1
@@ -441,16 +440,16 @@ Golang 结构和映射
 ```go
 package main
 import (
-	"fmt"
+        "fmt"
 )
 type Vertex struct {
-	X int
-	Y int
+        X int
+        Y int
 }
 func main() {
-	v := Vertex{1, 2}
-	v.X = 4
-	fmt.Println(v.X, v.Y) // => 4 2
+        v := Vertex{1, 2}
+        v.X = 4
+        fmt.Println(v.X, v.Y) // => 4 2
 }
 ```
 
@@ -569,6 +568,7 @@ sum(nums...)  // => [1 2 3 4] 10
 ```go
 import --> const --> var --> init()
 ```
+
 ---
 
 ```go
@@ -701,22 +701,22 @@ Golang 并发
 ```go
 package main
 import (
-	"fmt"
-	"time"
+    "fmt"
+    "time"
 )
 func f(from string) {
-	for i := 0; i < 3; i++ {
-		fmt.Println(from, ":", i)
-	}
+    for i := 0; i < 3; i++ {
+            fmt.Println(from, ":", i)
+    }
 }
 func main() {
-	f("direct")
-	go f("goroutine")
-	go func(msg string) {
-		fmt.Println(msg)
-	}("going")
-	time.Sleep(time.Second)
-	fmt.Println("done")
+    f("direct")
+    go f("goroutine")
+    go func(msg string) {
+            fmt.Println(msg)
+    }("going")
+    time.Sleep(time.Second)
+    fmt.Println("done")
 }
 ```
 
@@ -725,26 +725,26 @@ func main() {
 ### WaitGroup
 <!--rehype:wrap-class=row-span-2-->
 
-```golang
+```go
 package main
 import (
-	"fmt"
-	"sync"
-	"time"
+    "fmt"
+    "sync"
+    "time"
 )
 func w(id int, wg *sync.WaitGroup) {
-	defer wg.Done()
-	fmt.Printf("%d starting\n", id)
-	time.Sleep(time.Second)
-	fmt.Printf("%d done\n", id)
+    defer wg.Done()
+    fmt.Printf("%d starting\n", id)
+    time.Sleep(time.Second)
+    fmt.Printf("%d done\n", id)
 }
 func main() {
-	var wg sync.WaitGroup
-	for i := 1; i <= 5; i++ {
-		wg.Add(1)
-		go w(i, &wg)
-	}
-	wg.Wait()
+    var wg sync.WaitGroup
+    for i := 1; i <= 5; i++ {
+            wg.Add(1)
+            go w(i, &wg)
+    }
+    wg.Wait()
 }
 ```
 
@@ -916,6 +916,7 @@ func main() {
 -------------
 
 ### 关键字(Keywords)
+
 - break
 - default
 - func
@@ -945,17 +946,66 @@ func main() {
 
 ### 运算符和标点符号
 
-|   |    |     |     |      |    |     |   |   |
-|---|----|-----|-----|------|----|-----|---|---|
-| `+` | &  | +=  | &=  | &&   | == | !=  | ( | ) |
-| `-` | \| | -=  | \|= | \|\| | <  | <=  | [ | ] |
-| `*` | ^  | *=  | ^=  | <-   | >  | >=  | { | } |
-| `/` | << | /=  | <<= | ++   | =  | :=  | , | ; |
-| `%` | >> | %=  | >>= | --   | !  | ... | . | : |
-|   | &^ | &^= |     |      |    |     |   |   |
+|     |      |       |       |        |      |       |     |     |
+| --- | ---- | ----- | ----- | ------ | ---- | ----- | --- | --- |
+| `+` | `&`  | `+=`  | `&=`  | `&&`   | `==` | `!=`  | `(` | `)` |
+| `-` | `\|` | `-=`  | `\|=` | `\|\|` | `<`  | `<=`  | `[` | `]` |
+| `*` | `^`  | `*=`  | `^=`  | `<-`   | `>`  | `>=`  | `{` | `}` |
+| `/` | `<<` | `/=`  | `<<=` | `++`   | `=`  | `:=`  | `,` | `;` |
+| `%` | `>>` | `%=`  | `>>=` | `--`   | `!`  | `...` | `.` | `:` |
+|     | `&^` | `&^=` |       |        |      |       |     |     |
+
+Go 命令
+---
+
+### Go 编译器命令
+
+:- | --
+:- | --
+`go command [参数]`  | go 命令 [参数]
+`go build`          | 编译包和依赖包
+`go clean`          | 移除对象和缓存文件
+`go doc`            | 显示包的文档
+`go env`            | 打印go的环境变量信息
+`go bug`            | 报告bug
+`go fix`            | 更新包使用新的api
+`go fmt`            | 格式规范化代码
+`go generate`       | 通过处理资源生成go文件
+`go get`            | 下载并安装包及其依赖
+`go install`        | 编译和安装包及其依赖
+`go list`           | 列出所有包
+`go run`            | 编译和运行go程序
+`go test`           | 测试
+`go tool`           | 运行给定的go工具
+`go version`        | 显示go当前版本
+`go vet`            | 发现代码中可能的错误
+
+### ENV
+
+:- | --
+:- | --
+`GOOS`         | 编译系统
+`GOARCH`       | 编译arch
+`GO111MODULE`  | gomod开关
+`GOPROXY`      | go代理 <https://goproxy.io>  <https://goproxy.cn>
+`GOSSAFUNC`    | 生成 `SSA.html` 文件，展示代码优化的每一步 `GOSSAFUNC=func_name go build`
+<!--rehype:className=style-list-arrow-->
+
+### Module
+
+:- | --
+:- | --
+`go mod init`         | 初始化当前文件夹，创建go.mod文件
+`go mod download`     | 下载依赖的module到本地
+`go mod tidy`         | 增加缺少的module，删除无用的module
+`go mod vendor`       | 将依赖复制到vendor下
+文件 `go.mod`          |  依赖列表和版本约束
+文件 `go.sum`          |  记录 `module` 文件 `hash` 值，用于安全校验
+<!--rehype:className=style-list-arrow-->
 
 另见
 --------
+
 - [Devhints](https://devhints.io/go) _(devhints.io)_
 - [A tour of Go](https://tour.golang.org/welcome/1) _(tour.golang.org)_
 - [Golang wiki](https://github.com/golang/go/wiki/) _(github.com)_

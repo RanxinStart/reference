@@ -149,6 +149,40 @@ class Circle extends Shape {
 原型的语法糖。
 请参阅: [类](https://babeljs.io/learn-es2015/#classes)
 
+### 私有类
+
+javascript 默认字段是公共的（`public`）,如果需要注明私有，可以使用（`#`）
+
+```js
+class Dog {
+  #name;
+  constructor(name) {
+    this.#name = name;
+  }
+  printName() {
+    //只能在类内部调用私有字段
+    console.log(`你的名字是${this.#name}`)
+  }
+}
+
+const dog = new Dog("putty")
+//console.log(this.#name) 
+//Private identifiers are not allowed outside class bodies.
+dog.printName()
+```
+
+#### 静态私有类
+
+```js
+class ClassWithPrivate {
+  static #privateStaticField;
+  static #privateStaticFieldWithInitializer = 42;
+
+  static #privateStaticMethod() {
+    // …
+  }
+}
+```
 
 Promises
 --------
@@ -237,7 +271,9 @@ let {title, author} = {
 const scores = [22, 33]
 const [math = 50, sci = 50, arts = 50] = scores
 ```
+
 ----
+
 ```js
 // Result:
 // math === 22, sci === 33, arts === 50
@@ -252,7 +288,9 @@ function greet({ name, greeting }) {
   console.log(`${greeting}, ${name}!`)
 }
 ```
+
 ----
+
 ```js
 greet({ name: 'Larry', greeting: 'Ahoy' })
 ```
@@ -266,7 +304,9 @@ function greet({ name = 'Rauno' } = {}) {
   console.log(`Hi ${name}!`);
 }
 ```
+
 ----
+
 ```js
 greet() // Hi Rauno!
 greet({ name: 'Larry' }) // Hi Larry!
@@ -279,7 +319,9 @@ function printCoordinates({ left: x, top: y }) {
   console.log(`x: ${x}, y: ${y}`)
 }
 ```
+
 ----
+
 ```js
 printCoordinates({ left: 25, top: 90 })
 ```
@@ -448,6 +490,13 @@ function foo() {}
 foo.name // "foo"
 ```
 
+### length 属性
+
+```js
+function foo(a, b){}
+foo.length // 2
+```
+
 Objects
 -------
 
@@ -456,7 +505,9 @@ Objects
 ```js
 module.exports = { hello, bye }
 ```
-同下: 
+
+同下:
+
 ```js
 module.exports = {
   hello: hello, bye: bye
@@ -524,22 +575,30 @@ Modules 模块
 import 'helpers'
 // 又名: require('···')
 ```
----
+
+----
+
 ```js
 import Express from 'express'
 // 又名: const Express = require('···').default || require('···')
 ```
----
+
+----
+
 ```js
 import { indent } from 'helpers'
 // 又名: const indent = require('···').indent
 ```
----
+
+----
+
 ```js
 import * as Helpers from 'helpers'
 // 又名: const Helpers = require('···')
 ```
----
+
+----
+
 ```js
 import { indentSpaces as indent } from 'helpers'
 // 又名: const indent = require('···').indentSpaces
@@ -554,12 +613,16 @@ import { indentSpaces as indent } from 'helpers'
 export default function () { ··· }
 // 又名: module.exports.default = ···
 ```
+
 ----
+
 ```js
 export function mymethod () { ··· }
 // 又名: module.exports.mymethod = ···
 ```
+
 ----
+
 ```js
 export const pi = 3.14159
 // 又名: module.exports.pi = ···
@@ -643,6 +706,22 @@ new URL('data.txt', import.meta.url)
 
 Node.js 环境中，`import.meta.url`返回的总是本地路径，即 `file:URL` 协议的字符串，比如 `file:///home/user/foo.js`
 
+### 导入断言（Import Assertions）
+<!--rehype:wrap-class=col-span-2-->
+
+#### 静态导入
+
+```js
+import json from "./package.json" assert {type: "json"}
+// 导入 json 文件中的所有对象
+```
+
+#### 动态导入
+
+```js
+const json = 
+     await import("./package.json", { assert: { type: "json" } })
+```
 
 Generators
 ----------
@@ -655,7 +734,9 @@ function* idMaker () {
   while (true) { yield id++ }
 }
 ```
----
+
+----
+
 ```js
 let gen = idMaker()
 gen.next().value  // → 0
@@ -706,7 +787,6 @@ gen[Symbol.iterator] = function* () {
 ```
 
 `Generator` 函数赋值给 `Symbol.iterator` 属性，从而使得 `gen` 对象具有了 `Iterator` 接口，可以被 `...` 运算符遍历了
-
 
 ### Symbol.iterator 属性
 

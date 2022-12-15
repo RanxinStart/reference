@@ -3,7 +3,6 @@ MySQL 备忘清单
 
 本备忘单旨在快速理解 [MySQL](https://mysql.com) 所涉及的主要概念，提供了最常用的SQL语句，供您参考。
 
-
 入门
 ---
 
@@ -65,9 +64,9 @@ mysql -h <host> -u <user> -p [db_name]
 `SHOW TABLES;`           | 列出当前数据库的表
 `SHOW FIELDS FROM` t`;`  | 表的列表字段
 `DESC` t`;`              | 显示表格结构
-`SHOW CREATE TABLE `t`;` | 显示创建表sql
-`TRUNCATE TABLE `t`;`    | 删除表中的所有数据
-`DROP TABLE `t`;`        | 删除表格
+`SHOW CREATE TABLE`t`;` | 显示创建表sql
+`TRUNCATE TABLE`t`;`    | 删除表中的所有数据
+`DROP TABLE`t`;`        | 删除表格
 
 #### Proccess
 
@@ -172,6 +171,12 @@ ALTER TABLE t1 RENAME TO t2;
 
 ```sql
 ALTER TABLE t1 RENAME c1 TO c2 ;
+```
+
+将列c1的数据类型改为datatype
+
+```sql
+ALTER TABLE t1 MODIFY c1 datatype;
 ```
 
 删除表中的所有数据
@@ -388,6 +393,7 @@ CREATE TABLE t(
   CHECK(c1> 0 AND c1 >= c2)
 );
 ```
+
 c2列中的设置值不为NULL
 
 ```sql
@@ -556,7 +562,6 @@ DROP INDEX idx_name;
 MySQL 数据类型
 ---------
 
-
 ### Strings
 
 | -            | -                           |
@@ -573,16 +578,15 @@ MySQL 数据类型
 | `ENUM`       | One of preset options       |
 | `SET`        | Selection of preset options |
 
-
 ### Date & time
+
 | Data Type   | Format              |
 |-------------|---------------------|
-| `DATE     ` | yyyy-MM-dd          |
-| `TIME     ` | hh:mm:ss            |
-| `DATETIME ` | yyyy-MM-dd hh:mm:ss |
+| `DATE` | yyyy-MM-dd          |
+| `TIME` | hh:mm:ss            |
+| `DATETIME` | yyyy-MM-dd hh:mm:ss |
 | `TIMESTAMP` | yyyy-MM-dd hh:mm:ss |
-| `YEAR     ` | yyyy                |
-
+| `YEAR` | yyyy                |
 
 ### Numeric
 

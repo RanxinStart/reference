@@ -185,6 +185,7 @@ $ git tag my_tag
 ```shell
 $ git checkout -b <branch-name> origin/<branch-name>
 ```
+<!--rehype:className=wrap-text-->
 
 ### 临时提交
 
@@ -235,6 +236,55 @@ $ git diff branchB...branchA
 ```shell
 $ git show [SHA]
 ```
+
+### 忽略文件 .gitignore
+<!--rehype:wrap-class=row-span-4-->
+
+文件 `.gitignore` 指定了 `Git` 应该忽略的 **未跟踪的** 文件
+
+:- | :-
+:- | :-
+行首 `#` | 全行注释，不支持行尾类注释 _(转义 `\#`)_
+行首 **`!`** | 否定模式 _(转义 `\!`)_
+`**` | 匹配任意路径
+`*` | 匹配任意多个字符
+`?` | 匹配任意一个字符
+`doc/**` | 匹配 `doc` 文件夹下的全部内容
+`doc/**/a` | 匹配任意深度路径下的 `a` 文件或文件夹
+`/` | 表示路径分隔符，不区分操作系统
+`/` 结尾 | 仅会匹配文件夹，否则会匹配文件和文件夹
+空行 | 不匹配任何文件
+行尾空格 | 默认被忽略，可使用`\`进行转义
+行首空格 | 被正常处理，不会被忽略
+
+当前 `.gitignore` 文件定义规则的优先级高于上级路径 `.gitignore` 定义规则的优先级；后定义的规则优先级高于前面定义规则的优先级
+
+```gitignore showLineNumbers
+# 忽略当前目录logs文件夹下的全部内容
+/logs/
+/logs/*
+/logs/**
+# 上述几条规则等效
+
+# 忽略 Mac 系统文件，包括任意子路径下的同名文件（夹）
+.DS_store
+
+# 忽略 node_modules 文件夹，包括任意子路径下的同名文件夹
+node_modules/
+
+# 忽略任意子路径下build、target文件夹，
+# 但不忽略src/main、src/test下的build、target文件夹
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# 使用 ! 重新包含指定文件（夹）
+!logs/.gitkeep
+```
+<!--rehype:className=wrap-text-->
 
 ### 重构文件名
 
@@ -339,28 +389,13 @@ $ git mv [existing-path] [new-path]
 $ git log --stat -M
 ```
 
-### 忽略文件
-
-```gitignore showLineNumbers
-/logs/*
-# “！” 意思是不要忽视
-!logs/.gitkeep
-# 忽略 Mac 系统文件
-.DS_store
-# 忽略 node_modules 文件夹
-node_modules
-# 忽略 SASS 配置文件
-.sass-cache
-```
-
-`.gitignore` 文件指定了 Git 应该忽略的未跟踪的文件
-
 ### git 配置 ssh 代理
+<!--rehype:wrap-class=col-span-2-->
 
 ```bash
 $ cat ~/.ssh/config
 Host gitlab.com
-# 直接使用 shadowsocks 提供的 socks5 代理端口
+# 直接使用 sh**socks 提供的 socks5 代理端口
 ProxyCommand nc -X 5 -x 127.0.0.1:1080 %h %p 
 
 Host github.com
@@ -368,21 +403,58 @@ ProxyCommand nc -X 5 -x 127.0.0.1:1080 %h %p
 ```
 <!--rehype:className=wrap-text-->
 
+### .gitattributes
+
+```ini
+# 设置默认行为，以防人们没有设置 core.autocrlf
+* text=auto
+# 明确声明您希望始终规范化并在结帐时
+# 转换为本机行结尾的文本文件
+*.c text
+*.h text
+# 声明在结帐时始终以 CRLF 行结尾的文件
+*.sln text eol=crlf
+# 表示所有真正二进制且不应修改的文件
+*.png binary
+*.jpg binary
+```
+
+[计入存储库语言](https://github.com/github/linguist/blob/master/docs/overrides.md#using-gitattributes)
+
+```ini
+# 标记或取消标记要根据存储库的语言统计数据而
+# 忽略或默认隐藏差异的路径
+search/index.json linguist-generated=true
+# 以下属性统计 SQL 文件
+*.sql linguist-detectable=true
+# 从统计信息中排除
+docs/formatter.rb linguist-documentation=false
+# 将它们从统计信息中排除
+special-vendored-path/* linguist-vendored
+# 将所有 .rb 文件检测为 Java 文件
+*.rb linguist-language=Java
+```
+
 Git 技巧
 ------
 
 ### 重命名分支
 
 - **重命名**为`new`
+
   ```shell
   $ git branch -m <new>
   $ git branch -m <old> <new> #重命名分支  
   ```
+
 - **推送**并重置
+
   ```shell
   $ git push origin -u <new>
   ```
+
 - **删除**远程分支
+
   ```shell
   $ git push origin --delete <old> #方法1
   $ git push origin :oldBranchName #方法2
@@ -674,6 +746,7 @@ $ git blame <file-name>
 ```bash
 $ git commit --amend --author='Author Name <email@address.com>'
 ```
+<!--rehype:className=wrap-text-->
 
 ### 修改远程仓库的 url
 
@@ -753,6 +826,7 @@ $ git rebase --autostash
 ```bash
 $ git fetch origin pull/<id>/head:<branch-name>
 ```
+<!--rehype:className=wrap-text-->
 
 ### 详细展示一行中的修改
 
@@ -796,6 +870,35 @@ $ git checkout --orphan <branch-name>
 
 ```bash
 $ git show <branch-name>:<file-name>
+```
+
+### 配置 http 和 socks 代理
+<!--rehype:wrap-class=row-span-4-->
+
+```bash
+# 查看代理
+$ git config --global http.proxy
+$ git config --global https.proxy
+$ git config --global socks.proxy
+
+# 设置代理
+# 适用于 privoxy 将 socks 协议转为 http 协议的 http 端口
+$ git config --global http.proxy http://127.0.0.1:1080
+$ git config --global https.proxy http://127.0.0.1:1080
+$ git config --global socks.proxy 127.0.0.1:1080
+
+# 取消代理
+$ git config --global --unset http.proxy
+$ git config --global --unset https.proxy
+$ git config --global --unset socks.proxy
+
+# 只对 github.com 设置代理
+$ git config --global http.https://github.com.proxy socks5://127.0.0.1:1080
+$ git config --global https.https://github.com.proxy socks5://127.0.0.1:1080
+
+# 取消 github.com 代理
+$ git config --global --unset http.https://github.com.proxy
+$ git config --global --unset https.https://github.com.proxy
 ```
 
 ### clone 最新一次提交
@@ -847,17 +950,104 @@ git reset <file-name>
 
 不添加参数，默认是 `-mixed`
 
-### 配置 http 和 socks 代理
+### 配置 SSH 协议代理
 
-```bash
-# 适用于 privoxy 将 socks 协议转为 http 协议的 http 端口
-git config --global https.proxy 'http://127.0.0.1:8001'
-git config --global http.proxy 'http://127.0.0.1:8001'
-git config --global socks.proxy "127.0.0.1:1080"
+```shell
+# 对于使用 git@ 协议的，可以配置 socks5 代理
+# macOS 系统编辑 ~/.ssh/config 文件，添加这几行，设置 github 代理
+Host github.com
+  ProxyCommand nc -X 5 -x 127.0.0.1:1080 %h %p
 ```
 <!--rehype:className=wrap-text-->
+
+git 代码统计
+---
+
+### 查看 git 上的个人代码量
+
+- `username` 需要改成自己的
+
+```bash
+git log --author="username" --pretty=tformat: --numstat | awk \
+'{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -
+```
+
+### 统计每个人增删行数
+
+```bash
+git log --format='%aN' | sort -u |\
+  while read name; do echo -en "$name\t";\
+  git log --author="$name" --pretty=tformat: --numstat | awk \
+  '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
+```
+
+### 查看仓库提交者排名
+
+这里是排名前十，也可以更改排名
+
+```bash
+git log --pretty='%aN' | sort | uniq -c | sort -k1 -n -r | head -n 10
+```
+
+### 提交数统计
+
+```bash
+git log --oneline | wc -l
+```
+
+Conventional Commmits
+----
+
+### 格式
+<!--rehype:wrap-class=col-span-3-->
+
+```text
+<type>(<scope>): <short summary>
+  │       │             │
+  │       │             └─⫸ 紧凑简短的描述，无需大写，也不需要用句号结尾
+  │       │
+  │       └─⫸ Commit 范围: animations|bazel|benchpress|common|compiler|compiler-cli|core|
+  │                          elements|forms|http|language-service|localize|platform-browser|
+  │                          platform-browser-dynamic|platform-server|router|service-worker|
+  │                          upgrade|zone.js|packaging|changelog|docs-infra|migrations|ngcc|ve|
+  │                          devtools....
+  │
+  └─⫸ Commit 类型: build|ci|doc|docs|feat|fix|perf|refactor|test
+                    website|chore|style|type|revert
+```
+
+### 常用
+<!--rehype:wrap-class=row-span-1-->
+
+|   类型   |  描述 |
+| ----------|------------ |
+| `feat:`   | 新特性     |
+| `fix(scope):`   | 修复 scope 中的 Bug |
+| `feat!:` / `feat(scope)!:` | breaking change /  重构 API |
+| `chore(deps):` | 更新依赖 |
+<!--rehype:className=left-align-->
+
+### Commit 类型
+<!--rehype:wrap-class=col-span-2-->
+
+|   类型   |  描述 |
+| ----------|------------ |
+| `build:` | 变更影响的是**构建系统**或者**外部依赖** (如: gulp, npm) |
+| `ci:` | 修改了 CI 配置文件或脚本 (如: Github Action, Travis) |
+| `chore:` | **【重要】** 变更不影响源代码或测试（如更新了辅助工具、库等) |
+| `docs:` | 只修改了文档 |
+| `feat:` | **【重要】** 一个新特性 |
+| `fix:` | **【重要】** 修复了一个 Bug |
+| `perf:` | 增强性能的代码变更 |
+| `refactor:` | 并非修复 Bug 或添加新特性的代码变更 |
+| `revert:` | 回退代码 |
+| `style:` | 变更不影响一些有意义的代码 (如: 删除空格、格式化代码、添加分号等) |
+| `test:` | 添加测试代码或修正已有的测试 |
+<!--rehype:className=left-align-->
 
 另见
 ---
 
 - [最常用的 git 提示和技巧](https://github.com/git-tips/tips)
+- [Conventional Commits 官方网站](https://www.conventionalcommits.org/zh-hans/v1.0.0/) _(conventionalcommits.org)_
+- [Conventional Commits Cheatsheet](https://gist.github.com/Zekfad/f51cb06ac76e2457f11c80ed705c95a3) _(gist.github.com)_

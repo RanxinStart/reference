@@ -35,7 +35,7 @@ int num = 5;
 float floatNum = 5.99f;
 char letter = 'D';
 boolean bool = true;
-String site = "quickref.me";
+String site = "jaywcjlove.github.io";
 ```
 
 ### 原始数据类型
@@ -73,6 +73,7 @@ for (char c: word.toCharArray()) {
 }
 // 输出: Q-u-i-c-k-R-e-f-
 ```
+
 查看: [Loops](#java-循环)
 
 ### 数组 Arrays
@@ -85,6 +86,7 @@ String[] letters = {"A", "B", "C"};
 int[] mylist = {100, 200};
 boolean[] answers = {true, false};
 ```
+
 查看: [Arrays](#java-数组)
 
 ### Swap
@@ -127,9 +129,10 @@ if (j == 10) {
 }
 ```
 
-查看: [Conditionals](#java-conditionals)
+查看: [Conditionals](#条件语句 Conditionals)
 
 ### 用户输入
+
 ```java
 Scanner in = new Scanner(System.in);
 String str = in.nextLine();
@@ -175,48 +178,60 @@ StringBuilder sb = new StringBuilder(10);
 └───┴───┴───┴───┴───┴───┴───┴───┴───┘
 0   1   2   3   4   5   6   7   8   9
 ```
+
 ---
 
 ```java
 sb.append("Reference");
 ```
+
 ---
+
 ```java
 ┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
 | R | e | f | e | r | e | n | c | e |
 └───┴───┴───┴───┴───┴───┴───┴───┴───┘
 0   1   2   3   4   5   6   7   8   9
 ```
+
 ---
 
 ```java
 sb.delete(3, 9);
 ```
+
 ---
+
 ```java
 ┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
 | R | e | f |   |   |   |   |   |   |
 └───┴───┴───┴───┴───┴───┴───┴───┴───┘
 0   1   2   3   4   5   6   7   8   9
 ```
+
 ---
 
 ```java
 sb.insert(0, "My ");
 ```
+
 ---
+
 ```java
 ┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
 | M | y |   | R | e | f |   |   |   |
 └───┴───┴───┴───┴───┴───┴───┴───┴───┘
 0   1   2   3   4   5   6   7   8   9
 ```
+
 ---
 
 ```java
 sb.append("!");
 ```
+
 ---
+
 ```java
 ┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
 | M | y |   | R | e | f | ! |   |   |
@@ -286,7 +301,7 @@ System.out.println(concat);
 Java 数组
 -------
 
-### 申明 Declare
+### 声明 Declare
 
 ```java
 int[] a1;
@@ -370,7 +385,7 @@ Java 条件语句
 - `!` _(逻辑补码运算符；反转布尔值)_
 <!--rehype:className=style-round-->
 
-----
+---
 
 - `==` _(等于)_
 - `!=` _(不等于)_
@@ -380,19 +395,19 @@ Java 条件语句
 - `<=` _(小于或等于)_
 <!--rehype:className=cols-2 style-round-->
 
-----
+---
 
 - `&&` _条件与_
 - `||` _条件或_
 - [?:](#三元运算符) _三元(if-then-else 语句的简写)_
 <!--rehype:className=style-round-->
 
-----
+---
 
 - `instanceof` _(将对象与指定类型进行比较)_
 <!--rehype:className=style-round-->
 
-----
+---
 
 - `~` _(一元按位补码)_
 - `<<` _(签名左移)_
@@ -462,7 +477,7 @@ for (int i = 0; i < 10; i++) {
 // 输出: 0123456789
 ```
 
-------
+---
 
 ```java
 for (int i = 0,j = 0; i < 3; i++,j--) {
@@ -537,28 +552,28 @@ Java 框架搜集
 
 搜集 | Interface   | 有序 | 已排序 | 线程安全 | 复制 | Nullable
 :-|:-|:-|:-|:-|:-|:-
-[ArrayList](https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html)                                    | List        | Y       | _N_    | _N_         | Y         | Y                  
-[Vector](https://docs.oracle.com/javase/8/docs/api/java/util/Vector.html)                                          | List        | Y       | _N_    | Y           | Y         | Y                  
-[LinkedList](https://docs.oracle.com/javase/8/docs/api/java/util/LinkedList.html)                                  | List, Deque | Y       | _N_    | _N_         | Y         | Y                  
-[CopyOnWriteArrayList](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CopyOnWriteArrayList.html)   | List        | Y       | _N_    | Y           | Y         | Y                  
-[HashSet](https://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html)                                        | Set         | _N_     | _N_    | _N_         | _N_       | One `null`         
-[LinkedHashSet](https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashSet.html)                            | Set         | Y       | _N_    | _N_         | _N_       | One `null`         
-[TreeSet](https://docs.oracle.com/javase/8/docs/api/java/util/TreeSet.html)                                        | Set         | Y       | Y      | _N_         | _N_       | _N_                
-[CopyOnWriteArraySet](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CopyOnWriteArraySet.html)     | Set         | Y       | _N_    | Y           | _N_       | One `null`         
-[ConcurrentSkipListSet](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentSkipListSet.html) | Set         | Y       | Y      | Y           | _N_       | _N_                
-[HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)                                        | Map         | _N_     | _N_    | _N_         | _N (key)_ | One `null` _(key)_ 
-[HashTable](https://docs.oracle.com/javase/8/docs/api/java/util/Hashtable.html)                                    | Map         | _N_     | _N_    | Y           | _N (key)_ | _N (key)_          
-[LinkedHashMap](https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html)                            | Map         | Y       | _N_    | _N_         | _N (key)_ | One `null` _(key)_ 
-[TreeMap](https://docs.oracle.com/javase/8/docs/api/java/util/TreeMap.html)                                        | Map         | Y       | Y      | _N_         | _N (key)_ | _N (key)_          
-[ConcurrentHashMap](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html)         | Map         | _N_     | _N_    | Y           | _N (key)_ | _N_                
-[ConcurrentSkipListMap](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentSkipListMap.html) | Map         | Y       | Y      | Y           | _N (key)_ | _N_                
-[ArrayDeque](https://docs.oracle.com/javase/8/docs/api/java/util/ArrayDeque.html)                                  | Deque       | Y       | _N_    | _N_         | Y         | _N_                
-[PriorityQueue](https://docs.oracle.com/javase/8/docs/api/java/util/PriorityQueue.html)                            | Queue       | Y       | _N_    | _N_         | Y         | _N_                
-[ConcurrentLinkedQueue](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html) | Queue       | Y       | _N_    | Y           | Y         | _N_                
-[ConcurrentLinkedDeque](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentLinkedDeque.html) | Deque       | Y       | _N_    | Y           | Y         | _N_                
-[ArrayBlockingQueue](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ArrayBlockingQueue.html)       | Queue       | Y       | _N_    | Y           | Y         | _N_                
-[LinkedBlockingDeque](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/LinkedBlockingDeque.html)     | Deque       | Y       | _N_    | Y           | Y         | _N_                
-[PriorityBlockingQueue](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/PriorityBlockingQueue.html) | Queue       | Y       | _N_    | Y           | Y         | _N_                
+[ArrayList](https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html)                                    | List        | Y       | _N_    | _N_         | Y         | Y
+[Vector](https://docs.oracle.com/javase/8/docs/api/java/util/Vector.html)                                          | List        | Y       | _N_    | Y           | Y         | Y
+[LinkedList](https://docs.oracle.com/javase/8/docs/api/java/util/LinkedList.html)                                  | List, Deque | Y       | _N_    | _N_         | Y         | Y
+[CopyOnWriteArrayList](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CopyOnWriteArrayList.html)   | List        | Y       | _N_    | Y           | Y         | Y
+[HashSet](https://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html)                                        | Set         | _N_     | _N_    | _N_         | _N_       | One `null`
+[LinkedHashSet](https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashSet.html)                            | Set         | Y       | _N_    | _N_         | _N_       | One `null`
+[TreeSet](https://docs.oracle.com/javase/8/docs/api/java/util/TreeSet.html)                                        | Set         | Y       | Y      | _N_         | _N_       | _N_
+[CopyOnWriteArraySet](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CopyOnWriteArraySet.html)     | Set         | Y       | _N_    | Y           | _N_       | One `null`
+[ConcurrentSkipListSet](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentSkipListSet.html) | Set         | Y       | Y      | Y           | _N_       | _N_
+[HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)                                        | Map         | _N_     | _N_    | _N_         | _N (key)_ | One `null` _(key)_
+[HashTable](https://docs.oracle.com/javase/8/docs/api/java/util/Hashtable.html)                                    | Map         | _N_     | _N_    | Y           | _N (key)_ | _N (key)_
+[LinkedHashMap](https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html)                            | Map         | Y       | _N_    | _N_         | _N (key)_ | One `null` _(key)_
+[TreeMap](https://docs.oracle.com/javase/8/docs/api/java/util/TreeMap.html)                                        | Map         | Y       | Y      | _N_         | _N (key)_ | _N (key)_
+[ConcurrentHashMap](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html)         | Map         | _N_     | _N_    | Y           | _N (key)_ | _N_
+[ConcurrentSkipListMap](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentSkipListMap.html) | Map         | Y       | Y      | Y           | _N (key)_ | _N_
+[ArrayDeque](https://docs.oracle.com/javase/8/docs/api/java/util/ArrayDeque.html)                                  | Deque       | Y       | _N_    | _N_         | Y         | _N_
+[PriorityQueue](https://docs.oracle.com/javase/8/docs/api/java/util/PriorityQueue.html)                            | Queue       | Y       | _N_    | _N_         | Y         | _N_
+[ConcurrentLinkedQueue](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html) | Queue       | Y       | _N_    | Y           | Y         | _N_
+[ConcurrentLinkedDeque](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentLinkedDeque.html) | Deque       | Y       | _N_    | Y           | Y         | _N_
+[ArrayBlockingQueue](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ArrayBlockingQueue.html)       | Queue       | Y       | _N_    | Y           | Y         | _N_
+[LinkedBlockingDeque](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/LinkedBlockingDeque.html)     | Deque       | Y       | _N_    | Y           | Y         | _N_
+[PriorityBlockingQueue](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/PriorityBlockingQueue.html) | Queue       | Y       | _N_    | Y           | Y         | _N_
 <!--rehype:className=show-header-->
 
 ### ArrayList
@@ -767,6 +782,40 @@ try {
   System.out.println("always printed");
 }
 ```
+
+### 反射
+
+```java
+/**
+* 利用反射动态加载依赖库
+* java9及以上版本可用
+* @param jar jar文件
+*/
+Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+method.setAccessible(true);
+MethodHandle addURL = lookup.unreflect(method);
+URL url = jar.toURI().toURL();
+URLClassLoader urlClassLoader = new URLClassLoader(new URL[] {url});
+addURL.invoke(urlClassLoader, url);
+//java8
+Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+method.setAccessible(true);
+method.invoke(classLoader, url);
+```
+
+### util工具类
+
+- `ArrayDeque` 提供 resizable-array 并实现 Deque 接
+- `Arrays` 包含一个静态工厂，允许将数组视为列表
+- `Collections` 包含对集合进行操作或返回集合的静态方法
+- `Date` 表示特定的时间瞬间，精度为毫秒
+- `Dictionary` 是任何类的抽象父类，例如 Hashtable，它将键映射到值
+- `EnumMap` 一个专门用于枚举键的 Map 实现
+- `EnumSet` 一个专门用于枚举键的 Set 实现
+- `Formatter` 提供对布局对齐和对齐、数字、字符串和日期/时间数据的常用格式以及特定于语言环境的输出的支持
+- `SecureRandom` 实例用于生成安全的伪随机数流
+- `UUID` 表示一个不可变的通用唯一标识符
+- `Vector` 实现了一个可增长的对象数组
 
 另见
 ---
