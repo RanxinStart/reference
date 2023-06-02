@@ -84,7 +84,7 @@ jobs:
         id: changelog
         uses: jaywcjlove/changelog-generator@main
         with:
-          filter-author: (小弟调调™)
+          filter-author: (小弟调调™|github-actions-bot|dependabot|renovate\\[bot\\]|dependabot\\[bot\\]|Renovate Bot)
           filter: (^[\s]+?[R|r]elease)|(^[R|r]elease)
 
       - name: Create Release
@@ -122,8 +122,7 @@ jobs:
             ```
 
       # Create Docker Image
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - uses: docker/setup-buildx-action@v2
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -136,7 +135,7 @@ jobs:
           push: true
           context: .
           platforms: linux/amd64,linux/arm64
-          tags: ${{ secrets.DOCKER_USER }}/reference:latest
+          tags: wcjiang/reference:latest
 
       - name: Build and push image:tags
         uses: docker/build-push-action@v3
@@ -145,7 +144,7 @@ jobs:
           push: true
           context: .
           platforms: linux/amd64,linux/arm64
-          tags: ${{ secrets.DOCKER_USER }}/reference:${{steps.changelog.outputs.version}}
+          tags: wcjiang/reference:${{steps.changelog.outputs.version}}
 
       # Create Docker Image in Github
       - name: Login to the GitHub Container Registry

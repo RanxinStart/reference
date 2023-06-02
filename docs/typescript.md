@@ -1350,6 +1350,7 @@ const point = [3, 4] as const
 ```
 
 ### satisfies
+<!--rehype:wrap-class=row-span-2-->
 
 `satisfies` 允许将验证表达式的类型与某种类型匹配，而无需更改该表达式的结果类型。
 
@@ -1385,10 +1386,10 @@ const palette = {
 // undefined | number
 const redComponent = palette.red.at(0)
 ```
-
 <!--rehype:className=wrap-text-->
 
 ### 范型实例化表达式
+<!--rehype:wrap-class=row-span-2-->
 
 不使用的情况下：
 
@@ -1432,6 +1433,449 @@ const makeStringBox = makeBox<string>;
 makeStringBox(42);
 ```
 
+### 识别全局修改模块
+
+```ts
+declare global {
+  interface String {
+    fancyFormat(opts: FancyOption): string;
+  }
+}
+export interface FancyOption {
+  fancinessLevel: number;
+}
+```
+
+.d.ts 模版
+---
+
+### Module: Plugin
+
+例如，当您想使用扩展另一个库的 JavaScript 代码时
+
+```ts
+import { greeter } from "super-greeter";
+// 普通欢迎 API
+greeter(2);
+greeter("Hello world");
+// 现在我们在运行时用一个新函数扩展对象
+import "hyper-super-greeter";
+greeter.hyperGreet();
+```
+
+"`super-greeter`" 的定义：
+
+```ts
+/* 此示例说明如何为您的函数设置多个重载 */
+export interface GreeterFunction {
+  (name: string): void
+  (time: number): void
+}
+/* 此示例显示如何导出接口指定的函数 */
+export const greeter: GreeterFunction;
+```
+
+我们可以像下面这样扩展现有模块：
+
+```ts
+/* 导入这个模块添加到的模块 */
+import { greeter } from "super-greeter";
+/* 声明与上面导入的模块相同的模块，然后我们扩展 greeter 函数的现有声明 */
+export module "super-greeter" {
+  export interface GreeterFunction {
+    /** Greets even better! */
+    hyperGreet(): void;
+  }
+}
+```
+<!--rehype:className=wrap-text-->
+
+### 全局库模板 Global .d.ts
+<!--rehype:wrap-class=row-span-2-->
+
+全局库可能如下所示：
+
+```ts
+function createGreeting(s) {
+  return "Hello, " + s;
+}
+```
+
+或者像这样：
+
+```ts
+window.createGreeting = function (s) {
+  return "Hello, " + s;
+};
+```
+
+<pur>类型声明示例</pur>
+
+```ts
+/* 可以作为 myLib(3) 此处包含这些调用签名 */
+declare function myLib(a: string): string;
+declare function myLib(a: number): number;
+/* 如果你希望这个库的名称是一个有效的类型名称，你可以在这里这样做例如，这允许我们写 'var x: myLib'; 确保这确实有意义！ 如果没有，只需删除此声明并在下面的命名空间内添加类型 */
+interface myLib {
+  name: string;
+  length: number;
+  extras?: string[];
+}
+/* 如果您的库在全局变量上公开了属性，请将它们放在此处。 您还应该在此处放置类型（接口和类型别名） */
+declare namespace myLib {
+  // 我们可以写 'myLib.timeout = 50;'
+  let timeout: number;
+  // 我们可以访问 'myLib.version'，但不能更改它
+  const version: string;
+  // 我们可以通过 'let c = new myLib.Cat(42)' 创建一些类或参考例如 '函数 f(c: myLib.Cat) { ... }
+  class Cat {
+    constructor(n: number);
+    // 我们可以从 'Cat' 实例中读取 'c.age' 
+    readonly age: number;
+    // 我们可以从 'Cat' 实例调用 'c.purr()' 
+    purr(): void;
+  }
+  // 我们可以将变量声明为
+  //    'var s: myLib.CatSettings = { weight: 5, name: "Maru" };'
+  interface CatSettings {
+    weight: number;
+    name: string;
+    tailLength?: number;
+  }
+  // 我们可以写 'const v: myLib.VetID = 42;'
+  //   或 'const v: myLib.VetID = "bob";'
+  type VetID = string | number;
+  // 我们可以调用 'myLib.checkCat(c)' 或 'myLib.checkCat(c, v);'
+  function checkCat(c: Cat, s?: VetID);
+}
+```
+<!--rehype:className=wrap-text-->
+
+### Module: Function
+<!--rehype:wrap-class=row-span-2-->
+
+```ts
+import greeter from "super-greeter";
+greeter(2);
+greeter("Hello world");
+```
+
+要处理通过 `UMD` 和模块导入：
+
+```ts
+/* 如果此模块是一个 UMD 模块，在模块加载器环境之外加载时公开全局变量“myFuncLib”，请在此处声明该全局变量。 否则，删除此声明 */
+export as namespace myFuncLib;
+/* 此声明指定该函数是从文件中导出的对象 */
+export = Greeter;
+/* 此示例说明如何为您的函数设置多个重载 */
+declare function Greeter(name: string): Greeter.NamedReturnType;
+declare function Greeter(length: number): Greeter.LengthReturnType;
+```
+<!--rehype:className=wrap-text-->
+
+如果你也想从你的模块中公开类型，你可以把它们放在这个块中。 通常你会想要描述函数返回类型的形状； 如本例所示，应在此处声明该类型，请注意，如果您决定包含此命名空间，则模块可能会被错误地导入为命名空间对象，除非 `--esModuleInterop` 已打开： `import * as x from '[~THE MODULE~]';` 错误的！不要这样做!
+
+```ts
+declare namespace Greeter {
+  export interface LengthReturnType {
+    width: number;
+    height: number;
+  }
+  export interface NamedReturnType {
+    firstName: string;
+    lastName: string;
+  }
+  /**
+   * 如果模块也有属性，在这里声明它们。 例如，这个声明说这个代码是合法的：
+   *  import f = require('super-greeter');
+   *  console.log(f.defaultName);
+   */
+  export const defaultName: string;
+  export let defaultLength: number;
+}
+```
+<!--rehype:className=wrap-text-->
+
+### Module: Class
+
+例如，当您想要使用如下所示的 `JavaScript` 代码时：
+
+```ts
+const Greeter = require("super-greeter");
+const greeter = new Greeter();
+greeter.greet();
+```
+
+要处理通过 `UMD` 和模块导入：
+
+```ts
+export as namespace "super-greeter";
+/* 此声明指定类构造函数是从文件中导出的对象 */
+export = Greeter;
+/* 在此类中编写模块的方法和属性 */
+declare class Greeter {
+  constructor(customGreeting?: string);
+  greet: void;
+  myMethod(opts: MyClass.MyClassMethodOptions): number;
+}
+```
+<!--rehype:className=wrap-text-->
+
+如果你也想从你的模块中公开类型，你可以把它们放在这个块中，如果您决定包含此命名空间，则模块可能会被错误地导入为命名空间对象，除非 --esModuleInterop 已打开：
+ `import * as x from '[~THE MODULE~]';` 错误的！ 不要这样做！
+
+```ts
+declare namespace MyClass {
+  export interface MyClassMethodOptions {
+    width?: number;
+    height?: number;
+  }
+}
+```
+<!--rehype:className=wrap-text-->
+
+JSDoc 参考
+---
+
+### @type
+<!--rehype:wrap-class=row-span-2-->
+
+```javascript
+/** @type {string} */
+var s;
+/** @type {Window} */
+var win;
+/** @type {PromiseLike<string>} */
+var promisedString;
+// 您可以指定具有 DOM 属性的 HTML 元素
+/** @type {HTMLElement} */
+var elm = document.querySelector(selector);
+elm.dataset.myData = "";
+/** @type {number[]} */
+var ns;
+/** @type {Array.<number>} */
+var jsdoc;
+/** @type {Array<number>} */
+var nas;
+/** @type {string | boolean} */
+var sb;
+/** @type {{ a: string, b: number }} */
+var var9;
+/**
+ * 将任意“字符串”属性映射到“数字”的类地图对象
+ * @type {Object.<string, number>}
+ */
+var stringToNumber;
+/** @type {Object.<number, object>} */
+var arrayLike;
+/** @type {function(string, boolean): number} Closure syntax */
+var sbn;
+/** @type {(s: string, b: boolean) => number} TypeScript syntax */
+var sbn2;
+/** @type {Function} */
+var fn7;
+/** @type {function} */
+var fn6;
+/**
+ * @type {*} - can be 'any' type
+ */
+var star;
+/**
+ * @type {?} - unknown type (same as 'any')
+ */
+var question;
+/** @type {number | string} */
+var numberOrString = Math.random() < 0.5 ? "hello" : 100;
+var typeAssertedNumber = /** @type {number} */ (numberOrString);
+let one = /** @type {const} */(1);
+```
+
+### 导入类型
+
+```javascript
+// @filename: types.d.ts
+export type Pet = {
+  name: string,
+};
+// @filename: main.js
+/** @param { import("./types").Pet } p */
+function walk(p) {
+  console.log(`Walking ${p.name}...`);
+}
+```
+
+导入类型可以在类型别名声明中使用
+
+```javascript
+/**
+ * @typedef {import("./types").Pet} Pet
+ */
+/** @type {Pet} */
+var myPet;
+myPet.name;
+```
+
+如果您不知道类型，或者如果它有一个很烦人的大类型，`import types` 可以用来从模块中获取值的类型：
+
+```javascript
+/**
+ * @type {typeof import("./accounts").userAccount}
+ */
+var x = require("./accounts").userAccount;
+```
+
+### @param 和 @returns
+
+```javascript
+/**
+ * @param {string}  p1 - 一个字符串参数
+ * @param {string=} p2 - 可选参数（Google Closure 语法）
+ * @param {string} [p3] - 另一个可选参数（JSDoc 语法）
+ * @param {string} [p4="test"] - 具有默认值的可选参数
+ * @returns {string} 这是结果
+ */
+function stringsStrings(p1, p2, p3, p4) {
+  // TODO
+}
+```
+
+同样，对于函数的返回类型：
+
+```javascript
+/**
+ * @return {PromiseLike<string>}
+ */
+function ps() {}
+ 
+/**
+ * @returns {{ a: string, b: number }} - 可以使用“@returns”和“@return”
+ */
+function ab() {}
+```
+
+### @typedef, @callback, 和 @param
+<!--rehype:wrap-class=col-span-2 row-span-2-->
+
+```javascript
+/**
+ * @typedef {Object} SpecialType - 创建一个名为“SpecialType”的新类型
+ * @property {string} prop1 - SpecialType 的字符串属性
+ * @property {number} prop2 - SpecialType 的数字属性
+ * @property {number=} prop3 - SpecialType 的可选数字属性
+ * @prop {number} [prop4] - SpecialType 的可选数字属性
+ * @prop {number} [prop5=42] - 具有默认值的 SpecialType 的可选数字属性
+ */
+ 
+/** @type {SpecialType} */
+var specialTypeObject;
+specialTypeObject.prop3;
+```
+
+您可以在第一行使用 object 或 Object
+
+```javascript
+/**
+ * @typedef {object} SpecialType1 - 创建一个名为“SpecialType”的新类型
+ * @property {string} prop1 - SpecialType 的字符串属性
+ * @property {number} prop2 - SpecialType 的数字属性
+ * @property {number=} prop3 - SpecialType 的可选数字属性
+ */
+ 
+/** @type {SpecialType1} */
+var specialTypeObject1;
+```
+
+**@param** 允许对一次性类型规范使用类似的语法。 请注意，嵌套的属性名称必须以参数名称为前缀：
+
+```javascript
+/**
+ * @param {Object} options - 形状和上面的SpecialType一样
+ * @param {string} options.prop1
+ * @param {number} options.prop2
+ * @param {number=} options.prop3
+ * @param {number} [options.prop4]
+ * @param {number} [options.prop5=42]
+ */
+function special(options) {
+  return (options.prop4 || 1001) + options.prop5;
+}
+```
+
+**@callback** 类似于 **@typedef**，但它指定的是函数类型而不是对象类型：
+
+```javascript
+/**
+ * @callback Predicate
+ * @param {string} data
+ * @param {number} [index]
+ * @returns {boolean}
+ */
+ 
+/** @type {Predicate} */
+const ok = (s) => !(s.length % 2);
+```
+
+当然，这些类型中的任何一种都可以在单行 **@typedef** 中使用 TypeScript 语法声明：
+
+```javascript
+/** @typedef {{ prop1: string, prop2: string, prop3?: number }} SpecialType */
+/** @typedef {(data: string, index?: number) => boolean} Predicate */
+```
+
+### @template
+
+您可以使用 **@template** 标记声明类型参数。 这使您可以创建通用的函数、类或类型：
+
+```javascript
+/**
+ * @template T
+ * @param {T} x - 流向返回类型的通用参数
+ * @returns {T}
+ */
+function id(x) {
+  return x;
+}
+ 
+const a = id("string");
+const b = id(123);
+const c = id({});
+```
+
+使用逗号或多个标签来声明多个类型参数：
+
+```javascript
+/**
+ * @template T,U,V
+ * @template W,X
+ */
+```
+
+您还可以在类型参数名称之前指定类型约束。 只有列表中的第一个类型参数受到约束：
+
+```javascript
+/**
+ * @template {string} K - K 必须是字符串或字符串文字
+ * @template {{ serious(): string }} Seriousalizable - 一定要有 serious 的方法
+ * @param {K} key
+ * @param {Seriousalizable} object
+ */
+function seriousalize(key, object) {
+  // ????
+}
+```
+
+最后，您可以为类型参数指定默认值：
+
+```javascript
+/** @template [T=object] */
+class Cache {
+  /** @param {T} initial */
+  constructor(T) {
+  }
+}
+let c = new Cache()
+```
+
 CLI
 ---
 
@@ -1463,7 +1907,7 @@ $ tsc app.ts util.ts --target esnext --outfile index.js
 `--init` _boolean_ | 初始化 TypeScript 项目并创建 tsconfig.json 文件
 `--listFilesOnly` _boolean_ | 打印作为编译一部分的文件名，然后停止处理
 `--locale` _string_ | 设置来自 TypeScript 的消息传递语言。 这不影响发射
-`--project` _string_ | 编译项目给定其配置文件的路径，或带有“tsconfig.json”的文件夹
+`--project` _string_ | 编译项目给定其配置文件的路径，或带有 'tsconfig.json' 的文件夹
 `--showConfig` _boolean_ | 打印最终配置而不是构建
 `--version` _boolean_ | 打印编译器的版本
 <!--rehype:className=style-list-->
