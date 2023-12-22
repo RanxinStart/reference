@@ -171,6 +171,12 @@ Docker 网络
 
 ### 操作
 
+获取容器连接的网络
+
+```shell
+docker inspect MyContainer | grep Network
+```
+
 删除网络
 
 ```shell
@@ -224,6 +230,20 @@ docker network create -d overlay \
   --aux-address="my-nas=192.170.1.6" \
   MyOverlayNetwork
 ```
+
+Docker 快捷键
+----
+<!--rehype:body-class=cols-2-->
+
+### 退出
+
+| Docker 快捷键 | 说明 |
+|------------|------|
+`ctrl+c` | 将关闭容器，并删除当前的容器实例
+`ctrl+d` | 将保留容器，并退出到Docker主机的命令行界面
+`ctrl+p+q` | 将容器分离，保留容器，但是不退出
+
+需要特别注意的是，上面的退出快捷键中的删除容器实例只对于使用`docker attach`进入的容器生效，使用`docker exec`进入容器后使用上面的快捷键后将隔离容器且不会删除容器实例。
 
 各种各样的
 ----
